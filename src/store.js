@@ -3,17 +3,15 @@ import { createStore } from "vuex";
 export default createStore({
   // สถานะ
   state: {
-    LoggedIn: false,
+    logedIn: false,
     token: localStorage.getItem("token"),
     _id: "",
     userName: null,
-    setuserId: null,
-    globalLoading: false,
     roles: "",
   },
   //ตัวดึงข้อมูล
   getters: {
-    LoggedIn: (state) => state.LoggedIn,
+    logedIn: (state) => state.logedIn,
     token: (state) => state.token,
     _id: (state) => state._id,
     username: (state) => state.userName,
@@ -25,32 +23,28 @@ export default createStore({
       state.roles = roles;
       localStorage.setItem("roles", roles);
     },
-    setUserName(state, name) {
-      state.userName = name;
-      localStorage.setItem("userName", name);
-    },
-    setuserId(state, _id) {
-      state._id = _id;
-      localStorage.setItem("userId", _id);
-    },
     setLogin(state, item) {
-      state.LoggedIn = item.LoggedIn;
-      (state._id = item._id),
+      (state.logedIn = item.logedIn),
         (state.userName = item.userName),
-        (state.position = item.position);
+        (state.roles = item.roles),
+        (state.id = item.id);
+    },
+    setAdmin(state, item) {
+      state.userName = item.userName;
+      state.roles = item.roles;
+      state.id = item.id;
     },
     ClearLogin(state) {
-      state.LoggedIn = false;
-      state._id = "";
-      state.userName = "";
+      state.logedIn = false;
       state.token = "";
+      state.name = "";
+      state.roles = "";
+      state.id = "";
+      state.state = false;
       localStorage.clear();
     },
     setToken(state, item) {
       state.token = item;
-    },
-    SET_GLOBAL_LOADING(state, value) {
-      state.globalLoading = value;
     },
   },
   // การทำงาน

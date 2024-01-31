@@ -24,7 +24,7 @@ import navbar from "../components/Navbar/NavbarMain.vue";
           <h1
             class="font-bold leading-10 tracking-tight text-[#d0f4de] text-center sm:leading-none text-5xl sm:text-9xl"
           >
-            <span class="inline md:block drop-shadow-xl">LAB PROJECT</span>
+            <span class="inline md:block drop-shadow-xl text-[8rem]">LAB PROJECT</span>
           </h1>
         </div>
       </section>

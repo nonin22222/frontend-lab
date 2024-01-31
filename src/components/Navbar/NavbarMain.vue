@@ -1,19 +1,56 @@
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 
+import { useToast } from "primevue/usetoast";
+const toast = useToast();
+
 const store = useStore();
 const router = useRouter();
+const loginvisible = ref(false);
+const visible = ref(false);
 
-const isPopupVisible = ref(false);
 const user = ref("");
 const password = ref("");
-const showPassword = ref(false);
-const showValidationError = ref(false);
-const registerVisible = ref(false);
 
+const showSuccess = () => {
+  toast.add({
+    severity: "success",
+    summary: "เข้าสู่ระบบสำเร็จ",
+    life: 3000,
+  });
+};
+
+const showError = () => {
+  toast.add({
+    severity: "error",
+    summary: "เข้าสู่ระบบไม่สำเร็จ",
+    life: 3000,
+  });
+};
+const showWarn = () => {
+  toast.add({
+    severity: "warn",
+    summary: "กรุณากรอกข้อมูลให้ครบถ้วน",
+    life: 3000,
+  });
+};
+const handleKeyPress = (event) => {
+  if (event.key === "Enter") {
+    login();
+  }
+};
+
+onMounted(() => {
+  window.addEventListener("keypress", handleKeyPress);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keypress", handleKeyPress);
+});
+// ${import.meta.env.VITE_VUE_APP_LAB_API}/login
 const login = async () => {
   if (
     user.value === null ||
@@ -21,18 +58,60 @@ const login = async () => {
     password.value === null ||
     password.value === ""
   ) {
-    console.log("ล้มเหลว");
+    showWarn();
+    // console.log("ล้มเหลว");
   } else {
-    window.location.assign("/admin");
-    console.log("seccess");
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_VUE_APP_LAB_API}/login`,
+        {
+          username: user.value,
+          password: password.value,
+        }
+      );
+      store.commit("setToken", response.data.token);
+      store.commit("setLogin", {
+        logedIn: true,
+        userName: response.data.userName,
+        level: response.data.level,
+        id: response.data.id,
+      });
+      if (response.data.level && response.data.level.includes("admin")) {
+        showSuccess();
+        setTimeout(() => {
+          router.push("/admin");
+        }, 2000);
+      } else if (
+        response.data.level &&
+        response.data.level.includes("employee")
+      ) {
+        showSuccess();
+        setTimeout(() => {
+          router.push("/employee");
+        }, 2000);
+      } else if (response.data.level && response.data.level.includes("sale")) {
+        showSuccess();
+        setTimeout(() => {
+          router.push("/sale");
+        }, 2000);
+      } else {
+        console.log("ไม่พบบทบาทที่กำหนด");
+      }
+      console.log("เข้าสู่ระบบสำเร็จ");
+    } catch (error) {
+      showError();
+      console.error("Error : ", error);
+    }
   }
 };
-const validateInput = () => {
-  showValidationError.value = !/^[0-9]+$/.test(telephone.value);
+
+const showlogin = () => {
+  visible.value = true;
 };
 </script>
 
 <template>
+  <Toast />
   <div class="bg-[#2a9d8f] px-4 py-4 justify-between">
     <div class="w-full flex justify-between px-6">
       <div>
@@ -43,60 +122,112 @@ const validateInput = () => {
         >
       </div>
       <div class="flex gap-x-2">
-        <button class="btn glass" onclick="my_modal_3.showModal()">
-          เข้าสู่ระบบ
-        </button>
+        <div class="cursor-pointer flex items-center gap-x-2 text-white">
+          <Button @click="showlogin()" label="เข้าสู่ระบบ" icon="pi pi-user" />
+        </div>
 
-        <dialog id="my_modal_3" class="modal">
-          <div class="modal-box flex flex-col w-full gap-y-2 p-4 glass">
-            <form method="dialog" class="">
-              <div class="flex items-center justify-end">
-                <button class="btn btn-sm btn-circle btn-ghost">✕</button>
+        <Dialog
+          v-model:visible="loginvisible"
+          modal
+          :pt="{
+            root: 'border-none',
+            mask: {
+              style: 'backdrop-filter: blur(5px)',
+            },
+          }"
+        >
+          <template #container="{ closeCallback }">
+            <div
+              class="flex flex-col px-8 py-5 gap-4 bg-teal-300"
+              style="border-radius: 12px"
+            >
+              <div class="inline-flex flex-column gap-2">
+                <label for="username" class="text-primary-50 font-semibold"
+                  >Username</label
+                >
+                <InputText
+                  v-model="user"
+                  id="username"
+                  class="bg-white-alpha-20 border-none p-3 text-primary-50"
+                ></InputText>
               </div>
-            </form>
-            <div class="w-full flex flex-col gap-y-4">
-              <p>ชื่อผู้ใช้</p>
-              <input
-                type="text"
+              <div class="inline-flex flex-column gap-2">
+                <label for="password" class="text-primary-50 font-semibold"
+                  >Password</label
+                >
+                <InputText
+                  v-model="password"
+                  id="password"
+                  class="bg-white-alpha-20 border-none p-3 text-primary-50"
+                  type="password"
+                ></InputText>
+              </div>
+              <div class="flex align-items-center justify-center-between gap-2">
+                <Button label="Sign-In" @click="closeCallback" text />
+                <Button label="Cancel" @click="closeCallback" text />
+              </div>
+            </div>
+          </template>
+        </Dialog>
+      </div>
+      <Dialog
+        v-model:visible="visible"
+        modal
+        :style="{
+          'backdrop-filter': 'blur(5px)',
+          opacity: '0.9',
+          background: '#2a9d8f',
+        }"
+        :pt="{
+          root: 'border-none',
+        }"
+      >
+        <template #container="{ closeCallback }">
+          <div class="flex flex-column px-6 py-5 gap-4 rounded-xl">
+            <div class="flex w-full justify-center">
+              <img src="../template/qt-img/spjlogo.png" class="w-4" alt="" />
+            </div>
+
+            <div class="inline-flex flex-column gap-2">
+              <label for="username" class="text-white font-semibold"
+                >ชื่อผู้ใช้งาน</label
+              >
+              <InputText
                 v-model="user"
+                id="username"
                 placeholder="กรอกชื่อผู้ใช้"
-                class="input input-bordered input-success w-full max-w-xs glass"
-              />
-              <p>รหัสผ่าน</p>
-              <input
-                type="password"
+                class="bg-white-alpha-20 border-none p-3 text-primary-50"
+              ></InputText>
+            </div>
+            <div class="inline-flex flex-column gap-2">
+              <label for="password" class="text-white font-semibold"
+                >รหัสผ่าน</label
+              >
+              <InputText
                 v-model="password"
                 placeholder="กรอกรหัสผ่าน"
-                class="input input-bordered input-success w-full max-w-xs glass"
+                id="password"
+                class="bg-white-alpha-20 border-none p-3 text-primary-50"
+                type="password"
+              ></InputText>
+            </div>
+            <div class="flex w-full align-items-center gap-x-2">
+              <Button
+                label="ยกเลิก"
+                @click="closeCallback"
+                text
+                class="p-3 w-full border-1 border-white-alpha-30 text-white bg-red-400 rounded-xl hover:bg-red-600"
+              />
+              <Button
+                label="เข้าสู่ระบบ"
+                @click="login()"
+                text
+                class="p-3 w-full border-1 border-white-alpha-30 bg-teal-400 text-white rounded-xl hover:bg-teal-600"
               />
             </div>
-            <div class="flex w-full justify-end">
-              <button @click="login()" class="btn btn-primary">
-                เข้าสู่ระบบ
-              </button>
-            </div>
           </div>
-        </dialog>
-        <button class="btn" onclick="my_modal_2.showModal()">
-          สมัครใช้งาน
-        </button>
-        <dialog id="my_modal_2" class="modal">
-          <div class="modal-box">
-            <h3 class="font-bold text-lg">Hello!</h3>
-            <input
-              type="text"
-              placeholder="Type here"
-              class="input input-bordered input-success w-full max-w-xs"
-            />
-            <p class="py-4">Press ESC key or click the button below to close</p>
-            <div class="modal-action">
-              <form method="dialog">
-                <button class="btn">Close</button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-      </div>
+        </template>
+      </Dialog>
     </div>
   </div>
 </template>

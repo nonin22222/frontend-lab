@@ -101,6 +101,46 @@
             </router-link>
           </li>
           <li class="items-center">
+            <router-link to="/quoteForm" v-slot="{ href, navigate, isActive }">
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-tv mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                ฟอร์ม
+              </a>
+            </router-link>
+          </li>
+          <li class="items-center">
+            <router-link to="/manageemp" v-slot="{ href, navigate, isActive }">
+              <a
+                :href="href"
+                @click="navigate"
+                class="text-xs uppercase py-3 font-bold block"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+              >
+                <i
+                  class="fas fa-tv mr-2 text-sm"
+                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
+                ></i>
+                จัดการพนักงาน
+              </a>
+            </router-link>
+          </li>
+          <li class="items-center">
             <router-link to="/settings" v-slot="{ href, navigate, isActive }">
               <a
                 :href="href"
@@ -120,37 +160,17 @@
               </a>
             </router-link>
           </li>
-          <li class="items-center">
-            <router-link to="/quoteForm" v-slot="{ href, navigate, isActive }">
-              <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
-              >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                แบบฟอร์ม
-              </a>
-            </router-link>
-          </li>
         </ul>
         <hr class="my-4 md:min-w-full" />
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
-            <router-link
-              class="text-blueGray-700 hover:text-blueGray-500 text-xs uppercase py-3 font-bold block"
-              to="/"
-            >
-              <i class="fas fa-fingerprint text-blueGray-300 mr-2 text-sm"></i>
-              ออกจากระบบ
-            </router-link>
+            <div class="flex gap-x-2">
+              <Button
+                @click="logout"
+                label="ออกจากระบบ"
+                icon="pi pi-sign-out"
+              />
+            </div>
           </li>
         </ul>
       </div>
@@ -160,10 +180,26 @@
 
 <script setup>
 import { reactive } from "vue";
+import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
+const store = useStore();
+const router = useRouter();
 const data = reactive({
   collapseShow: "hidden",
 });
+
+const logout = async () => {
+  try {
+    store.commit("setToken", null);
+    store.commit("ClearLogin");
+    localStorage.removeItem("token");
+    router.push("/");
+    console.log("ออกจากระบบเรียบร้อย");
+  } catch (error) {
+    console.error("เกิดข้อผิดพลาดในการออกจากระบบ:", error);
+  }
+};
 
 const toggleCollapseShow = (classes) => {
   data.collapseShow = classes;
