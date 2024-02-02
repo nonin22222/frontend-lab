@@ -50,7 +50,61 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("keypress", handleKeyPress);
 });
-// ${import.meta.env.VITE_VUE_APP_LAB_API}/login
+// const login = async () => {
+//   if (
+//     user.value === null ||
+//     user.value === "" ||
+//     password.value === null ||
+//     password.value === ""
+//   ) {
+//     showWarn();
+//   } else {
+//     try {
+//       const response = await axios.post(
+//         `${import.meta.env.VITE_VUE_APP_LAB_API}/login`,
+//         {
+//           username: user.value,
+//           password: password.value,
+//         }
+//       );
+//       console.log("response : ",response.data);
+//       store.commit("setLogin", {
+//         logedIn: true,
+//         userName: response.data.userName,
+//         level: response.data.level,
+//         id: response.data.id,
+//       });
+//       if (response.data.status && response.data.level === "admin") {
+//         store.commit("setToken", response.data.token);
+//         localStorage.setItem("token", response.data.token);
+//         showSuccess();
+//         setTimeout(() => {
+//           router.push("/admin");
+//         }, 2000);
+//       } else if (
+//         response.data.level &&
+//         response.data.level.includes("employee")
+//       ) {
+//         showSuccess();
+//         setTimeout(() => {
+//           router.push("/employee");
+//         }, 2000);
+//       } else if (response.data.level && response.data.level.includes("sale")) {
+//         showSuccess();
+//         setTimeout(() => {
+//           router.push("/sale");
+//         }, 2000);
+//       } else {
+//         console.log("ไม่พบบทบาทที่กำหนด");
+//       }
+//       console.log("เข้าสู่ระบบสำเร็จ");
+//     } catch (error) {
+//       showError();
+//       console.error("Error : ", error);
+//     }
+//   }
+// };
+
 const login = async () => {
   if (
     user.value === null ||
@@ -59,7 +113,6 @@ const login = async () => {
     password.value === ""
   ) {
     showWarn();
-    // console.log("ล้มเหลว");
   } else {
     try {
       const response = await axios.post(
@@ -69,27 +122,35 @@ const login = async () => {
           password: password.value,
         }
       );
-      store.commit("setToken", response.data.token);
+      console.log("response : ", response.data);
+
+      // กำหนดค่า level ในการเรียกใช้ store.commit("setLogin", ...)
+      const level = response.data.level;
+
       store.commit("setLogin", {
         logedIn: true,
         userName: response.data.userName,
-        level: response.data.level,
+        level: level,
         id: response.data.id,
       });
-      if (response.data.level && response.data.level.includes("admin")) {
+
+      if (response.data.status && level === "admin") {
+        store.commit("setToken", response.data.token);
+        localStorage.setItem("token", response.data.token);
         showSuccess();
         setTimeout(() => {
           router.push("/admin");
         }, 2000);
-      } else if (
-        response.data.level &&
-        response.data.level.includes("employee")
-      ) {
+      } else if (level && level.includes("employee")) {
+        store.commit("setToken", response.data.token);
+        localStorage.setItem("token", response.data.token);
         showSuccess();
         setTimeout(() => {
           router.push("/employee");
         }, 2000);
-      } else if (response.data.level && response.data.level.includes("sale")) {
+      } else if (level && level.includes("sale")) {
+        store.commit("setToken", response.data.token);
+        localStorage.setItem("token", response.data.token);
         showSuccess();
         setTimeout(() => {
           router.push("/sale");
@@ -97,6 +158,7 @@ const login = async () => {
       } else {
         console.log("ไม่พบบทบาทที่กำหนด");
       }
+
       console.log("เข้าสู่ระบบสำเร็จ");
     } catch (error) {
       showError();
@@ -108,6 +170,14 @@ const login = async () => {
 const showlogin = () => {
   visible.value = true;
 };
+
+onMounted(() => {
+  const storedToken = localStorage.getItem("token");
+  if (storedToken) {
+    store.commit("setToken", storedToken);
+    // console.log("Token ถูกนำมาใช้งานหลังจากรีเฟรช");
+  }
+});
 </script>
 
 <template>
@@ -118,12 +188,12 @@ const showlogin = () => {
         <a
           href="#"
           class="inline-block py-2 text-[#d0f4de] text-2xl font-bold max-[640px]:hidden"
-          >LAB PROJECT</a
+          >LAB SPJ</a
         >
       </div>
       <div class="flex gap-x-2">
-        <div class="cursor-pointer flex items-center gap-x-2 text-white">
-          <Button @click="showlogin()" label="เข้าสู่ระบบ" icon="pi pi-user" />
+        <div class="cursor-pointer flex items-center gap-x-2 text-xl font-bold text-[#fff]">
+          <Button @click="showlogin()" label="เข้าสู่ระบบ" icon="px-2 m-0 pi pi-user text-lg font-bold" />
         </div>
 
         <Dialog
@@ -184,10 +254,12 @@ const showlogin = () => {
       >
         <template #container="{ closeCallback }">
           <div class="flex flex-column px-6 py-5 gap-4 rounded-xl">
-            <div class="flex w-full justify-center">
+            <h1 class="text-2xl text-white font-bold text-center">
+              ระบบเข้าใช้งาน S.P.J.SCIENTIFIC
+            </h1>
+            <div class="flex justify-center">
               <img src="../template/qt-img/spjlogo.png" class="w-4" alt="" />
             </div>
-
             <div class="inline-flex flex-column gap-2">
               <label for="username" class="text-white font-semibold"
                 >ชื่อผู้ใช้งาน</label
@@ -196,7 +268,7 @@ const showlogin = () => {
                 v-model="user"
                 id="username"
                 placeholder="กรอกชื่อผู้ใช้"
-                class="bg-white-alpha-20 border-none p-3 text-primary-50"
+                class="bg-white-alpha-20 border-none p-2 text-primary-50"
               ></InputText>
             </div>
             <div class="inline-flex flex-column gap-2">
@@ -207,22 +279,22 @@ const showlogin = () => {
                 v-model="password"
                 placeholder="กรอกรหัสผ่าน"
                 id="password"
-                class="bg-white-alpha-20 border-none p-3 text-primary-50"
+                class="bg-white-alpha-20 border-none p-2 text-primary-50"
                 type="password"
               ></InputText>
             </div>
-            <div class="flex w-full align-items-center gap-x-2">
+            <div class="flex w-full items-center justify-end gap-x-2">
               <Button
                 label="ยกเลิก"
                 @click="closeCallback"
                 text
-                class="p-3 w-full border-1 border-white-alpha-30 text-white bg-red-400 rounded-xl hover:bg-red-600"
+                class="p-2 border-1 border-white-alpha-30 text-white bg-red-400 rounded-xl hover:bg-red-600"
               />
               <Button
                 label="เข้าสู่ระบบ"
                 @click="login()"
                 text
-                class="p-3 w-full border-1 border-white-alpha-30 bg-teal-400 text-white rounded-xl hover:bg-teal-600"
+                class="p-2 border-1 border-white-alpha-30 bg-teal-400 text-white rounded-xl hover:bg-teal-600"
               />
             </div>
           </div>

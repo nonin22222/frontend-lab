@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6"
+    class="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-4"
   >
     <div
       class="md:flex-col md:items-stretch md:min-h-full md:flex-nowrap px-0 flex flex-wrap items-center justify-between w-full mx-auto"
@@ -20,16 +20,6 @@
       >
         <h1>LAB PROJECT</h1>
       </div>
-
-      <!-- User -->
-      <ul class="md:hidden items-center flex flex-wrap list-none">
-        <li class="inline-block relative">
-          <notification-dropdown />
-        </li>
-        <li class="inline-block relative">
-          <user-dropdown />
-        </li>
-      </ul>
       <!-- Collapse -->
       <div
         class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-4 md:shadow-none shadow absolute top-0 left-0 right-0 z-40 overflow-y-auto overflow-x-hidden h-auto items-center flex-1 rounded"
@@ -44,7 +34,6 @@
                 class="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
                 to="/"
               >
-                ue
               </router-link>
             </div>
             <div class="w-6/12 flex justify-end">
@@ -73,7 +62,7 @@
         <hr class="my-4 md:min-w-full" />
         <!-- Heading -->
         <h6
-          class="md:min-w-full text-blueGray-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline"
+          class="md:min-w-full text-blueGray-500 text-base border-b-2 border-black uppercase font-bold block pt-1 pb-3 no-underline"
         >
           ระบบจัดการแอดมิน
         </h6>
@@ -81,81 +70,81 @@
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
-            <router-link to="/admin" v-slot="{ href, navigate, isActive }">
+            <router-link to="/admin">
               <a
-                :href="href"
-                @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
-                :class="[
-                  isActive
-                    ? 'text-emerald-500 hover:text-emerald-600'
-                    : 'text-blueGray-700 hover:text-blueGray-500',
-                ]"
+                class="text-base uppercase gap-x-2 py-3 font-bold flex items-center"
               >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
+                <i class="pi pi-chart-line mr-2 text-base font-medium"></i>
                 Dashboard
               </a>
             </router-link>
           </li>
           <li class="items-center">
-            <router-link to="/quoteForm" v-slot="{ href, navigate, isActive }">
+            <router-link to="/quoteForm" v-slot="{ navigate, isActive }">
               <a
-                :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
                 :class="[
                   isActive
                     ? 'text-emerald-500 hover:text-emerald-600'
                     : 'text-blueGray-700 hover:text-blueGray-500',
                 ]"
+                class="text-base uppercase py-3 gap-x-2 font-bold flex items-center"
               >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
+                <i class="pi pi-file-edit mr-2 text-base font-medium"></i>
                 ฟอร์ม
               </a>
             </router-link>
           </li>
           <li class="items-center">
-            <router-link to="/manageemp" v-slot="{ href, navigate, isActive }">
+            <a
+              class="text-base uppercase flex border-b-2 border-black items-center py-3 font-bold block"
+            >
+              <i class="mr-2 text-base font-medium"></i>
+              จัดการพนักงาน
+            </a>
+
+            <!-- เมนูย่อย 1 -->
+            <router-link to="/manageemp" v-slot="{ navigate, isActive }">
               <a
-                :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-sm uppercase py-3 font-bold block ml-4"
                 :class="[
                   isActive
                     ? 'text-emerald-500 hover:text-emerald-600'
                     : 'text-blueGray-700 hover:text-blueGray-500',
                 ]"
-              >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
-                จัดการพนักงาน
+                ><i class="pi pi-users"></i>
+                จัดการพนักงานแผนก
+              </a>
+            </router-link>
+
+            <!-- เมนูย่อย 2 -->
+            <router-link to="/managesales" v-slot="{ navigate, isActive }">
+              <a
+                @click="navigate"
+                class="text-sm uppercase py-3 font-bold block ml-4"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
+                ><i class="pi pi-users"></i>
+                จัดการพนักงานเซลล์
               </a>
             </router-link>
           </li>
           <li class="items-center">
-            <router-link to="/settings" v-slot="{ href, navigate, isActive }">
+            <router-link to="/" v-slot="{ navigate, isActive }">
               <a
-                :href="href"
                 @click="navigate"
-                class="text-xs uppercase py-3 font-bold block"
+                class="text-base uppercase gap-x-2 py-3 font-bold flex items-center"
                 :class="[
                   isActive
                     ? 'text-emerald-500 hover:text-emerald-600'
                     : 'text-blueGray-700 hover:text-blueGray-500',
                 ]"
               >
-                <i
-                  class="fas fa-tv mr-2 text-sm"
-                  :class="[isActive ? 'opacity-75' : 'text-blueGray-300']"
-                ></i>
+                <i class="pi pi-cog mr-2 text-base font-medium"></i>
                 ตั้งค่า
               </a>
             </router-link>
@@ -164,7 +153,7 @@
         <hr class="my-4 md:min-w-full" />
         <ul class="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
           <li class="items-center">
-            <div class="flex gap-x-2">
+            <div class="flex gap-x-2 text-lg font-bold">
               <Button
                 @click="logout"
                 label="ออกจากระบบ"
@@ -187,10 +176,12 @@ const store = useStore();
 const router = useRouter();
 const data = reactive({
   collapseShow: "hidden",
+  isActive: false,
 });
 
 const logout = async () => {
   try {
+    localStorage.removeItem("token");
     store.commit("setToken", null);
     store.commit("ClearLogin");
     localStorage.removeItem("token");
