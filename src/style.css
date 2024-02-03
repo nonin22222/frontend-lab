@@ -1,18 +1,13 @@
 /* src/main.css */
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 :root {
-  /* cursor: url(https://ani.cursors-4u.net/symbols/sym-9/sym825.ani), url(https://ani.cursors-4u.net/symbols/sym-9/sym825.png), auto !important; */
-
   font-family: Kanit, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: normal;
 }
 
 #app {
   font-family: Kanit, system-ui, Avenir, Helvetica, Arial, sans-serif;
-
 }
-

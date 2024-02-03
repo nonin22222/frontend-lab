@@ -70,9 +70,15 @@
 
         <ul class="md:flex-col md:min-w-full flex flex-col list-none">
           <li class="items-center">
-            <router-link to="/admin">
+            <router-link to="/dashboard" v-slot="{ navigate, isActive }">
               <a
+                @click="navigate"
                 class="text-base uppercase gap-x-2 py-3 font-bold flex items-center"
+                :class="[
+                  isActive
+                    ? 'text-emerald-500 hover:text-emerald-600'
+                    : 'text-blueGray-700 hover:text-blueGray-500',
+                ]"
               >
                 <i class="pi pi-chart-line mr-2 text-base font-medium"></i>
                 Dashboard
@@ -134,7 +140,7 @@
             </router-link>
           </li>
           <li class="items-center">
-            <router-link to="/" v-slot="{ navigate, isActive }">
+            <router-link to="/dashboard" v-slot="{ navigate, isActive }">
               <a
                 @click="navigate"
                 class="text-base uppercase gap-x-2 py-3 font-bold flex items-center"

@@ -22,6 +22,7 @@ import Paginator from "primevue/paginator";
 import FileUpload from "primevue/fileupload";
 
 // Import styles
+import "@fortawesome/fontawesome-free/css/all.css";
 import "tailwindcss/tailwind.css";
 import "@headlessui/vue";
 import "primevue/resources/primevue.min.css";
