@@ -1,7 +1,7 @@
 <template>
-  <div class="relative md:ml-64 bg-blueGray-100">
+  <div class="relative bg-blueGray-100">
     <div class="relative pt-32 pb-32 bg-lightBlue-500">
-      <div class="px-4 md:px-6 mx-auto w-full flex items-center">
+      <div class="px-4 md:px-6 mx-auto w-full flex items-center justify-center">
         <div class="flex items-center">
           <div class="w-full lg:w-6/12 xl:w-3/12 px-4">
             <div
@@ -160,11 +160,11 @@
                     <th
                       class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200"
                     >
-                      Completion
+                      สถานะการดำเนินงาน
                     </th>
                     <th
                       class="px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-bold text-left bg-blueGray-100 text-blueGray-500 border-blueGray-200"
-                    ></th>
+                    >เพิ่มเติม</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,11 +173,6 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <img
-                          src="https://demos.creative-tim.com/notus-pro-react/static/media/bootstrap.bd712487.jpg"
-                          class="h-4 w-4 bg-white rounded-full border p-1"
-                          alt="..."
-                        />
                         <span class="ml-3 font-bold NaN"
                           >Argon Design System</span
                         >
@@ -193,109 +188,20 @@
                     >
                       <div class="flex items-center">
                         <i class="fas fa-circle mr-2 text-orange-500"></i
-                        >pending
+                        >กำลังดำเนินการ
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
-                      <div class="flex items-center">
-                        <div class="flex items-center">
-                          <div>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-1-800x800.fa5a7ac2.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 1
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 2
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-3-800x800.19201574.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 3
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-4-470x470.4ef82ef4.png"
-                              />
-                              <div
-                                class="hidden"
-                                data-popper-placement="top"
-                                style="
-                                  position: absolute;
-                                  inset: auto auto 0px 0px;
-                                  margin: 0px;
-                                  transform: translate(688px, 1518px);
-                                "
-                                data-popper-escaped=""
-                              >
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 4
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
+                      <div class=" items-center">
+                        <div class=" items-center">
+                          <div class="">
+                            <img
+                              alt="..."
+                              class="rounded-full w-2"
+                              src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
+                            />
                           </div>
                           <small class="pl-2 font-bold mb-1"></small>
                         </div>
@@ -305,14 +211,14 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 min-w-140-px"
                     >
                       <div class="flex items-center">
-                        <span class="mr-2">60%</span>
+                        <span class="mr-2">70%</span>
                         <div class="relative w-full">
                           <div
-                            class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
+                            class="overflow-hidden h-2 text-xs flex rounded bg-orange-200"
                           >
                             <div
-                              class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                              style="width: 60%"
+                              class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"
+                              style="width: 70%"
                             ></div>
                           </div>
                         </div>
@@ -357,11 +263,6 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <img
-                          src="https://demos.creative-tim.com/notus-pro-react/static/media/angular.b5045666.jpg"
-                          class="h-12 w-12 bg-white rounded-full border p-1"
-                          alt="..."
-                        />
                         <span class="ml-3 font-bold NaN"
                           >Angular Now UI Kit PRO</span
                         >
@@ -377,112 +278,20 @@
                     >
                       <div class="flex items-center">
                         <i class="fas fa-circle mr-2 text-emerald-500"></i
-                        >completed
+                        >สำเร็จ
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
-                      <div class="flex items-center">
-                        <div class="flex items-center">
-                          <div>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-1-800x800.fa5a7ac2.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 1
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 2
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-3-800x800.19201574.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 3
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-4-470x470.4ef82ef4.png"
-                              />
-                              <div
-                                class="hidden"
-                                data-popper-placement="top"
-                                style="
-                                  position: absolute;
-                                  inset: auto auto 0px 0px;
-                                  margin: 0px;
-                                  transform: translate(688px, 1518px);
-                                "
-                                data-popper-escaped=""
-                              >
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 4
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <small class="pl-2 font-bold mb-1"></small>
-                        </div>
+                      <div class=" items-center">
+                          <img
+                            alt="..."
+                            class="rounded-full w-2"
+                            src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
+                          />
+
+
                       </div>
                     </td>
                     <td
@@ -541,11 +350,6 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <img
-                          src="https://demos.creative-tim.com/notus-pro-react/static/media/sketch.a6af780a.jpg"
-                          class="h-12 w-12 bg-white rounded-full border p-1"
-                          alt="..."
-                        />
                         <span class="ml-3 font-bold NaN"
                           >Black Dashboard Sketch</span
                         >
@@ -560,126 +364,33 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <i class="fas fa-circle mr-2 text-red-500"></i>delayed
+                        <i class="fas fa-circle mr-2 text-red-500"></i
+                        >รอดำเนินการ
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
-                      <div class="flex items-center">
-                        <div class="flex items-center">
-                          <div>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-1-800x800.fa5a7ac2.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 1
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 2
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-3-800x800.19201574.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 3
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-4-470x470.4ef82ef4.png"
-                              />
-                              <div
-                                class="hidden"
-                                data-popper-placement="top"
-                                style="
-                                  position: absolute;
-                                  inset: auto auto 0px 0px;
-                                  margin: 0px;
-                                  transform: translate(688px, 1518px);
-                                "
-                                data-popper-escaped=""
-                              >
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 4
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <small class="pl-2 font-bold mb-1"></small>
-                        </div>
+                      <div class=" items-center">
+                        <img
+                          alt="..."
+                          class="rounded-full w-2"
+                          src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
+                        />
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 min-w-140-px"
                     >
                       <div class="flex items-center">
-                        <span class="mr-2">73%</span>
+                        <span class="mr-2">0%</span>
                         <div class="relative w-full">
                           <div
                             class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                           >
                             <div
                               class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"
-                              style="width: 73%"
+                              style="width: 0%"
                             ></div>
                           </div>
                         </div>
@@ -724,11 +435,6 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <img
-                          src="https://demos.creative-tim.com/notus-pro-react/static/media/react.0e8c9066.jpg"
-                          class="h-12 w-12 bg-white rounded-full border p-1"
-                          alt="..."
-                        />
                         <span class="ml-3 font-bold NaN"
                           >Material Dashboard</span
                         >
@@ -743,310 +449,33 @@
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
                       <div class="flex items-center">
-                        <i class="fas fa-circle mr-2 text-red-500"></i>delayed
+                        <i class="fas fa-circle mr-2 text-red-500"></i
+                        >รอดำเนินการ
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
                     >
-                      <div class="flex items-center">
-                        <div class="flex items-center">
-                          <div>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-1-800x800.fa5a7ac2.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 1
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 2
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-3-800x800.19201574.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 3
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-4-470x470.4ef82ef4.png"
-                              />
-                              <div
-                                class="hidden"
-                                data-popper-placement="top"
-                                style="
-                                  position: absolute;
-                                  inset: auto auto 0px 0px;
-                                  margin: 0px;
-                                  transform: translate(688px, 1518px);
-                                "
-                                data-popper-escaped=""
-                              >
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 4
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <small class="pl-2 font-bold mb-1"></small>
-                        </div>
+                      <div class=" items-center">
+                        <img
+                          alt="..."
+                          class="rounded-full w-2"
+                          src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
+                        />
                       </div>
                     </td>
                     <td
                       class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 min-w-140-px"
                     >
                       <div class="flex items-center">
-                        <span class="mr-2">90%</span>
+                        <span class="mr-2">0%</span>
                         <div class="relative w-full">
                           <div
-                            class="overflow-hidden h-2 text-xs flex rounded bg-teal-200"
+                            class="overflow-hidden h-2 text-xs flex rounded bg-red-200"
                           >
                             <div
                               class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal-500"
-                              style="width: 90%"
-                            ></div>
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 pb-6 pl-6 text-right"
-                    >
-                      <div class="relative">
-                        <button
-                          class="inline-block outline-none focus:outline-none align-middle transition-all duration-150 ease-in-out uppercase border border-solid font-bold last:mr-0 mr-2 text-blueGray-800 bg-white border-white active:bg-blueGray-100 active:border-blueGray-100 text-xs px-3 py-2 shadow hover:shadow-md rounded-md"
-                        >
-                          <i class="fas fa-cog"></i
-                          ><i
-                            class="ml-2 fas fa-caret-down transition-all duration-100 ease-in-out transform"
-                          ></i>
-                        </button>
-                        <div class="block z-50">
-                          <div
-                            class="origin-top-right bg-white text-base float-left p-2 border list-none text-left rounded-lg shadow-lg min-w-48 transition-all duration-100 ease-in transform opacity-0 scale-95 absolute"
-                          >
-                            <a
-                              href="javascript:;"
-                              class="text-sm px-3 py-2 block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 rounded transition-all duration-100"
-                              >Edit Profile</a
-                            ><a
-                              href="javascript:;"
-                              class="text-sm px-3 py-2 block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 rounded transition-all duration-100"
-                              >Settings</a
-                            ><a
-                              href="javascript:;"
-                              class="text-sm px-3 py-2 block w-full whitespace-nowrap bg-transparent hover:bg-blueGray-100 rounded transition-all duration-100"
-                              >Log out</a
-                            >
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                    >
-                      <div class="flex items-center">
-                        <img
-                          src="https://demos.creative-tim.com/notus-pro-react/static/media/vue.43bd93a8.jpg"
-                          class="h-12 w-12 bg-white rounded-full border p-1"
-                          alt="..."
-                        />
-                        <span class="ml-3 font-bold NaN"
-                          >Vue Material Dashboard</span
-                        >
-                      </div>
-                    </td>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                    >
-                      <div class="flex items-center">$2,200 USD</div>
-                    </td>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                    >
-                      <div class="flex items-center">
-                        <i class="fas fa-circle mr-2 text-emerald-500"></i
-                        >completed
-                      </div>
-                    </td>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"
-                    >
-                      <div class="flex items-center">
-                        <div class="flex items-center">
-                          <div>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-1-800x800.fa5a7ac2.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 1
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-2-800x800.2f02b23c.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 2
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-3-800x800.19201574.jpg"
-                              />
-                              <div class="hidden">
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 3
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                            <a
-                              class="text-white bg-blueGray-500 inline-flex items-center justify-center shadow-lg rounded rounded-full relative border-2 border-white -ml-4 hover:z-1 w-8 h-8"
-                              href="javascript:;"
-                            >
-                              <img
-                                alt="..."
-                                class="rounded-full w-4"
-                                src="https://demos.creative-tim.com/notus-pro-react/static/media/team-4-470x470.4ef82ef4.png"
-                              />
-                              <div
-                                class="hidden"
-                                data-popper-placement="top"
-                                style="
-                                  position: absolute;
-                                  inset: auto auto 0px 0px;
-                                  margin: 0px;
-                                  transform: translate(688px, 1518px);
-                                "
-                                data-popper-escaped=""
-                              >
-                                <div
-                                  class="border-0 mb-3 block z-50 font-normal leading-normal text-sm text-left no-underline break-words rounded"
-                                >
-                                  <div
-                                    class="py-1 px-2 text-center rounded text-white bg-black"
-                                  >
-                                    Team 4
-                                  </div>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                          <small class="pl-2 font-bold mb-1"></small>
-                        </div>
-                      </div>
-                    </td>
-                    <td
-                      class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 min-w-140-px"
-                    >
-                      <div class="flex items-center">
-                        <span class="mr-2">100%</span>
-                        <div class="relative w-full">
-                          <div
-                            class="overflow-hidden h-2 text-xs flex rounded bg-emerald-200"
-                          >
-                            <div
-                              class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-emerald-500"
-                              style="width: 100%"
+                              style="width: 0%"
                             ></div>
                           </div>
                         </div>

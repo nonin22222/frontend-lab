@@ -10,6 +10,12 @@ import ManageEmp from "../components/admin/ManageEmp.vue";
 import ManageSales from "../components/admin/ManageSales.vue";
 import Dashboard from "../components/admin/Dashboard.vue";
 
+// sale
+import dashboardSale from "../components/sale/dashboardSale.vue";
+import QouteformSale from "../components/sale/QouteformSale.vue";
+import Phasetime from "../components/sale/phasetime.vue";
+
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -41,6 +47,26 @@ const router = createRouter({
         },
       ],
       meta: { requiresAuth: true },
+    },
+
+    {
+      path: "/sale",
+      component: dashboardSale,
+      name: "sale",
+      children: [
+        {
+          path: "/dashboard",
+          component: Dashboard,
+        },
+        {
+          path: "/qtformsale",
+          component: QouteformSale,
+        },
+        {
+          path: "/phasetime",
+          component: Phasetime,
+        },
+      ],
     },
     { path: "/employee", component: EmployeeView },
   ],

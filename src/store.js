@@ -34,6 +34,9 @@ export default createStore({
       state.roles = item.roles;
       state.id = item.id;
     },
+    setUserName(state, userName) {
+      state.userName = userName;
+    },
     ClearLogin(state) {
       state.logedIn = false;
       state.token = "";

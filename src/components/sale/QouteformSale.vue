@@ -3,16 +3,26 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useToast } from "primevue/usetoast";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 const store = useStore();
 const toast = useToast();
+const router = useRouter();
 const qtvisible = ref(false);
 const data = ref([]);
 const visible = ref(true);
 const formqtvisible = ref(false);
 const taxId = ref("");
 const allqt = ref([]);
-const authtoken = store.getters.token;
+const qtstatus = ref([]);
+const userName = ref("");
+
+userName.value = store.state.userName;
+
+const goPhasetime = () => {
+  router.push("/phasetime");
+};
+
 const formData = ref({
   recipientName: "",
   companyName: "",
@@ -26,7 +36,10 @@ const formData = ref({
   period: "",
   projectDetails: "",
   analysisMethod: "",
-  quantity: null,
+  quantity: "สถานี",
+  time1: "",
+  time2: "",
+  type: "",
   frequency: null,
   unitPrice: null,
   totalAmount: null,
@@ -47,7 +60,7 @@ const getprovince = async () => {
   }
 };
 
-const getamphure = async () => {
+const getamphure = async (type) => {
   try {
     if (type === "amphure") {
       const selectedProvinceObject = provincedropdown.value.find(
@@ -87,52 +100,18 @@ const getamphure = async () => {
     console.error(error);
   }
 };
-const approveqt = async (id) => {
-  try {
-    const authToken = store.getters.token;
-    const response = await axios.put(
-      `${
-        import.meta.env.VITE_VUE_APP_LAB_API
-      }/admin/quotation/ApproveQuotation/${id}`,
-      null,
-      {
-        headers: {
-          "auth-token": `Bearer ${authToken}`,
-        },
-      }
-    );
-    const res = response.data;
-    console.log("res : ", res);
-  } catch (error) {
-    console.log("error : ", error);
-  }
-};
-const delqt = async (_id) => {
-  try {
-    const authToken = store.getters.token;
-    const response = await axios.put(
-      `${import.meta.env.VITE_VUE_APP_LAB_API}/admin/quotation/deleteQT/${_id}`,
-      {
-        headers: {
-          "auth-token": `Bearer ${authToken}`,
-        },
-      }
-    );
-    const res = response.data;
-    console.log("res : ", res);
-  } catch (error) {
-    console.log("error : ", error);
-  }
-};
 
 onMounted(() => {
-  console.log("authtoken : ", authtoken);
   getprovince();
   getAllqt();
+  console.log("userName : ", userName.value);
 });
 const cancelForm = () => {
   resetForm();
   visible.value = false;
+};
+const hideDetail = () => {
+  qtvisible.value = false;
 };
 const submitForm = () => {
   console.log("Form data:", {
@@ -141,6 +120,7 @@ const submitForm = () => {
 };
 const addwork = () => {
   showSuccess();
+  data.value.pop();
   data.value.push({
     recipientName: formData.value.recipientName,
     companyName: formData.value.companyName,
@@ -158,13 +138,16 @@ const addwork = () => {
     frequency: formData.value.frequency,
     unitPrice: formData.value.unitPrice,
     totalAmount: formData.value.totalAmount,
+    time1: formData.value.time1,
+    time2: formData.value.time2,
+    type: formData.value.type,
   });
 };
 const getAllqt = async () => {
   try {
     const authToken = store.getters.token;
     const response = await axios.get(
-      `${import.meta.env.VITE_VUE_APP_LAB_API}/admin/quotation/getQuotationAll`,
+      `${import.meta.env.VITE_VUE_APP_LAB_API}/quotation/GetAllQuotation`,
       {
         headers: {
           "auth-token": `Bearer ${authToken}`,
@@ -173,7 +156,9 @@ const getAllqt = async () => {
     );
     const resdata = response.data.data;
     allqt.value = resdata;
-    console.log("allqt", allqt.value);
+    qtstatus.value = response.data.data.status;
+    console.log("allqt : ", allqt.value);
+    console.log("qtstatus : ", qtstatus.value);
   } catch (error) {
     console.log("error : ", error);
   }
@@ -182,7 +167,6 @@ const showSuccess = () => {
   toast.add({
     severity: "success",
     summary: "เพิ่มข้อมูลสำเร็จ",
-    // detail: "Message Content",
     life: 3000,
   });
 };
@@ -192,10 +176,30 @@ const showqtvisible = () => {
 const exform = () => {
   qtvisible.value = true;
 };
+const lastStatus = (status) => {
+  if (status && status.length > 0) {
+    return status[status.length - 1].name;
+  } else {
+    return "";
+  }
+};
+const statusColor = (status) => {
+  switch (status) {
+    case "รออนุมัติ":
+      return "bg-yellow-500 text-white";
+    case "อนุมัติ":
+      return "bg-green-500 text-white";
+    case "ไม่อนุมัติ":
+      return "bg-red-500 text-white";
+    default:
+      return "";
+  }
+};
 </script>
 
 <template>
   <div class="py-1 h-full">
+    <h1 class="text-[2rem] te text-center font-semibold">รายการในเสนอ</h1>
     <div class="w-full bg-red-200">
       <!-- DataTable for Quotations -->
       <DataTable
@@ -203,6 +207,7 @@ const exform = () => {
         :value="allqt"
         dataKey="id"
         tableStyle="min-width: 60rem"
+        :style="{ padding: '0rem' }"
       >
         <template #header>
           <div class="flex flex-wrap justify-content-end gap-2">
@@ -214,31 +219,21 @@ const exform = () => {
               icon="pi pi-user-plus"
               text
               raised
-              class="bg-teal-500 rounded-xl font-bold py-2.5 px-4 text-white"
+              class="bg-teal-500 text-white rounded-xl font-bold py-2.5 px-2"
             />
           </div>
         </template>
         <Column field="quotation" header="เลขใบเสนอราคา"></Column>
         <Column field="employee_name" header="ชื่อพนักงาน"></Column>
-        <Column field="start_date" header="วันที่ทำรายการ"> </Column>
-        <Column header="เพิ่มเติม" style="width: 20%">
-          <template #body="slotProps">
-            <div class="flex gap-x-2">
-              <!-- ปุ่มยืนยัน -->
-              <Button
-                @click="approveqt(slotProps.data._id)"
-                label="อนุมัติ"
-                icon="pi pi-check"
-                class="p-button-success bg-green-500 text-white p-2 hover:bg-green-700"
-              />
-              <!-- ปุ่มลบ -->
-              <Button
-                @click="delqt(slotProps.data)"
-                label="ลบ"
-                icon="pi pi-trash"
-                class="p-button-danger bg-red-500 p-2 text-white hover:bg-red-700"
-              />
-            </div>
+        <Column field="start_date" header="วันที่ทำรายการ"></Column>
+        <Column header="สถานะ" style="width: 15%">
+          <template #body="item">
+            <span
+              :class="statusColor(lastStatus(item.data.status))"
+              class="p-2 rounded-lg"
+            >
+              {{ lastStatus(item.data.status) }}
+            </span>
           </template>
         </Column>
       </DataTable>
@@ -265,152 +260,149 @@ const exform = () => {
               </h6>
             </div>
           </div>
-          <div class="flex flex-col px-4 lg:px-10 py-10 pt-0">
-            <form>
-              <div class="flex w-full flex-col mt-3">
-                <div class="flex gap-x-4">
-                  <div class="w-full">
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
-                      >
-                        เรียน
-                      </label>
-                      <input
-                        v-model="formData.recipientName"
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
-                    </div>
-                  </div>
-
-                  <div class="w-full">
-                    <div class="relative w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
-                      >
-                        บริษัท
-                      </label>
-                      <input
-                        v-model="formData.companyName"
-                        type="text"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
-                    </div>
-                  </div>
+          <!-- ส่วนเรียนผู้ค้า -->
+          <div>
+            <form class="p-2 bg-red-200">
+              <div class="w-full">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlfor="grid-password"
+                  >
+                    เรียน
+                  </label>
+                  <input
+                    v-model="formData.recipientName"
+                    type="text"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  />
                 </div>
-                <div>
-                  <!-- ที่อยู่ -->
-                  <div class="mb-4">
-                    <label
-                      for="address"
-                      class="block text-sm font-medium text-gray-700"
-                      >ที่อยู่</label
-                    >
-                    <input
-                      type="text"
-                      id="address"
-                      v-model="formData.address"
-                      class="mt-1 p-2 w-full border rounded-md bg-white text-black"
-                      placeholder="กรอกที่อยู่"
-                    />
-                  </div>
+              </div>
+              <div class="w-full">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlfor="grid-password"
+                  >
+                    บริษัท
+                  </label>
+                  <input
+                    v-model="formData.companyName"
+                    type="text"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  />
                 </div>
-                <div
-                  class="w-full flex py-2 justify-between items-center max-w-[1280px]:flex-col"
+              </div>
+              <!-- ที่อยู่ -->
+              <div class="mb-4">
+                <label
+                  for="address"
+                  class="block text-sm font-medium text-gray-700"
+                  >ที่อยู่</label
                 >
-                  <!-- จังหวัด -->
-                  <div>
-                    <label for="province" class="pr-2"> จังหวัด :</label>
-                    <Dropdown
-                      v-model="formData.provinceValue"
-                      :options="provincedropdown"
-                      optionLabel="name_th"
-                      optionValue="name_th"
-                      placeholder="เลือกจังหวัด"
-                      @change="getamphure('amphure')"
-                      filter
-                    />
-                  </div>
-                  <!-- อำเภอ -->
-                  <div>
-                    <label for="amphure" class="pr-2"> อำเภอ :</label>
-                    <Dropdown
-                      v-model="formData.amphureValue"
-                      :options="amphuredropdown"
-                      optionLabel="name_th"
-                      optionValue="name_th"
-                      placeholder="เลือกอำเภอ"
-                      @change="getamphure('tambon')"
-                      filter
-                    />
-                  </div>
-                  <!-- ตำบล -->
-                  <div>
-                    <label for="tambon" class="pr-2"> ตำบล :</label>
-                    <Dropdown
-                      v-model="formData.tumbolValue"
-                      :options="tambondropdown"
-                      optionLabel="name_th"
-                      optionValue="name_th"
-                      placeholder="เลือกตำบล"
-                      filter
-                    />
-                  </div>
+                <input
+                  type="text"
+                  id="address"
+                  v-model="formData.address"
+                  class="mt-1 p-2 w-full border rounded-md bg-white text-black"
+                  placeholder="กรอกที่อยู่"
+                />
+              </div>
+              <div
+                class="w-full flex py-2 justify-between items-center max-w-[1280px]:flex-col"
+              >
+                <!-- จังหวัด -->
+                <div>
+                  <label for="province" class="pr-2"> จังหวัด :</label>
+                  <Dropdown
+                    v-model="formData.provinceValue"
+                    :options="provincedropdown"
+                    optionLabel="name_th"
+                    optionValue="name_th"
+                    placeholder="เลือกจังหวัด"
+                    @change="getamphure('amphure')"
+                    filter
+                  />
                 </div>
-                <!-- postcode/tel -->
-                <div class="flex grid-cols-2">
+                <!-- อำเภอ -->
+                <div>
+                  <label for="amphure" class="pr-2"> อำเภอ :</label>
+                  <Dropdown
+                    v-model="formData.amphureValue"
+                    :options="amphuredropdown"
+                    optionLabel="name_th"
+                    optionValue="name_th"
+                    placeholder="เลือกอำเภอ"
+                    @change="getamphure('tambon')"
+                    filter
+                  />
+                </div>
+                <!-- ตำบล -->
+                <div>
+                  <label for="tambon" class="pr-2"> ตำบล :</label>
+                  <Dropdown
+                    v-model="formData.tumbolValue"
+                    :options="tambondropdown"
+                    optionLabel="name_th"
+                    optionValue="name_th"
+                    placeholder="เลือกตำบล"
+                    filter
+                  />
+                </div>
+              </div>
+              <!-- postcode/tel -->
+              <div class="flex grid-cols-2">
+                <div class="w-full mb-3">
+                  <label
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlfor="grid-password"
+                  >
+                    รหัสไปรษณีย์
+                  </label>
+                  <input
+                    v-model="formData.postcode"
+                    type="number"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  />
+                </div>
+                <div class="w-full px-4">
                   <div class="w-full mb-3">
                     <label
                       class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                       htmlfor="grid-password"
                     >
-                      รหัสไปรษณีย์
+                      โทร
                     </label>
                     <input
-                      v-model="formData.postcode"
+                      v-model="formData.phoneNumber"
                       type="number"
-                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                    />
-                  </div>
-                  <div class="w-full px-4">
-                    <div class="w-full mb-3">
-                      <label
-                        class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                        htmlfor="grid-password"
-                      >
-                        โทร
-                      </label>
-                      <input
-                        v-model="formData.phoneNumber"
-                        type="number"
-                        class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full">
-                  <div class="relative w-full mb-3">
-                    <label
-                      class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                      htmlfor="grid-password"
-                    >
-                      สถานที่การเก็บตัวอย่าง
-                    </label>
-                    <input
-                      v-model="formData.sampleLocation"
-                      type="text"
                       class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                     />
                   </div>
                 </div>
               </div>
-
+              <div class="w-full">
+                <div class="relative w-full mb-3">
+                  <label
+                    class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                    htmlfor="grid-password"
+                  >
+                    สถานที่การเก็บตัวอย่าง
+                  </label>
+                  <input
+                    v-model="formData.sampleLocation"
+                    type="text"
+                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="flex flex-col px-4 lg:px-10 py-10 pt-0">
+            <form>
               <hr class="my-6 border-b-2 border-black" />
-
               <div>
+                <Phasetime />
                 <div class="relative w-full mb-3">
                   <label
                     class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -418,11 +410,18 @@ const exform = () => {
                   >
                     ระยะเวลางาน
                   </label>
-                  <input
-                    v-model="formData.period"
-                    type="text"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  />
+                  <div class="flex gap-x-4">
+                    <input
+                      v-model="formData.period"
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                    <Button
+                      @click="goPhasetime()"
+                      class="bg-green-400 text-white p-2 hover:bg-green-700 w-[10%]"
+                      label="ตกลง"
+                    />
+                  </div>
                 </div>
                 <div class="relative w-full mb-3">
                   <label
@@ -455,14 +454,22 @@ const exform = () => {
                     class="block uppercase text-blueGray-600 text-xs font-bold mb-2"
                     htmlfor="grid-password"
                   >
-                    จำนวน
+                    จำนวน/ครั้ง
                   </label>
-                  <input
-                    placeholder="ระบุจำนวน"
-                    v-model="formData.quantity"
-                    type="text"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  />
+                  <div class="flex gap-x-4">
+                    <input
+                      placeholder="ระบุจำนวน"
+                      v-model="formData.time1"
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                    <input
+                      placeholder="ระบุครั้ง"
+                      v-model="formData.quantity"
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                  </div>
                 </div>
                 <div class="relative w-full mb-3">
                   <label
@@ -471,12 +478,20 @@ const exform = () => {
                   >
                     ความถี่
                   </label>
-                  <input
-                    placeholder="ระบุความถี่"
-                    v-model="formData.frequency"
-                    type="text"
-                    class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                  />
+                  <div class="flex gap-x-4">
+                    <input
+                      placeholder="ระบุครั้ง"
+                      v-model="formData.time2"
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                    <input
+                      placeholder="ระบุประเภท เดือน/ครั้ง"
+                      v-model="formData.type"
+                      type="text"
+                      class="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                    />
+                  </div>
                 </div>
                 <div class="relative w-full mb-3">
                   <label
@@ -538,7 +553,7 @@ const exform = () => {
   >
     <div class="flex flex-col w-full items-center justify-center p-0">
       <div
-        class="w-4/5 bg-white flex flex-col border-2 border-black justify-center shadow-lg"
+        class="w- bg-white flex flex-col border-2 border-black justify-center shadow-lg"
       >
         <!-- ส่วนบน -->
         <div>
@@ -581,7 +596,6 @@ const exform = () => {
             </p>
             <div class="flex grid-cols-2 justify-between">
               <p>โทร : {{ formData.phoneNumber }}</p>
-              <p>โทรสาร :</p>
             </div>
             <p>สถานที่การเก็บตัวอย่าง : {{ formData.sampleLocation }}</p>
           </div>
@@ -589,50 +603,60 @@ const exform = () => {
             <div class="flex flex-col gap-y-2 w-full">
               <p>เลขที่/No. :</p>
               <p>วันที่/Date :</p>
-              <p>ผู้เสนอราคา :</p>
+              <p>ผู้เสนอราคา : {{ userName }}</p>
               <p>เลขประจำตัวผู้เสียภาษี : {{ taxId }}</p>
             </div>
           </div>
         </div>
         <!-- ส่วนรายละเอียด -->
-        <div class="flex justify-center p-4">
-          <div class="border-b border-gray-200 shadow w-full">
-            <table v-if="data && data.length > 0">
-              <thead>
-                <tr>
-                  <th>ลำดับ</th>
-                  <th>ระยะเวลางาน</th>
-                  <th>รายละเอียดงาน</th>
-                  <th>จำนวน</th>
-                  <th>ความถี่</th>
-                  <th>ราคา/หน่วย</th>
-                  <th>จำนวนเงิน</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(item, index) in data" :key="index">
-                  <td></td>
-                  <td>{{ item.period }}</td>
-                  <td>{{ item.projectDetails }}</td>
-                  <td>{{ item.quantity }}</td>
-                  <td>{{ item.frequency }}</td>
-                  <td>{{ item.unitPrice }}</td>
-                  <td>{{ item.totalAmount }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+        <div class="flex justify-center p-4 w-full overflow-x-auto">
+          <table v-if="data && data.length > 0">
+            <thead>
+              <tr>
+                <th class="py-2 px-2 border text-center border-gray-400">
+                  ลำดับ
+                </th>
+                <th class="py-2 px-2 border text-center border-gray-400">
+                  รายละเอียดโครงการ
+                </th>
+                <th class="py-2 px-2 border text-center border-gray-400">
+                  วิธีการวิเคราะห์
+                </th>
+                <th
+                  class="py-2 px-2 border text-center border-gray-400"
+                  colspan="2"
+                >
+                  จำนวน
+                </th>
+                <th
+                  class="py-2 px-2 border text-center border-gray-400"
+                  colspan="2"
+                >
+                  ความถี่
+                </th>
+                <th class="py-2 px-2 border text-center border-gray-400">
+                  ราคา/หน่วย
+                </th>
+                <th class="py-2 px-2 border text-center border-gray-400">
+                  จำนวนเงิน
+                </th>
+              </tr>
+            </thead>
+          </table>
         </div>
         <div class="w-full h-0.5 bg-black"></div>
         <div class="p-4">
           <div class="flex items-end justify-end space-x-3">
-            <button class="px-4 py-2 text-sm text-green-600 bg-green-100">
+            <!-- <button class="px-4 py-2 text-sm text-green-600 bg-green-100">
               Print
             </button>
             <button class="px-4 py-2 text-sm text-blue-600 bg-blue-100">
               Save
-            </button>
-            <button class="px-4 py-2 text-sm text-red-600 bg-red-100">
+            </button> -->
+            <button
+              @click="hideDetail()"
+              class="px-4 py-2 text-sm text-red-600 bg-red-100"
+            >
               Cancel
             </button>
           </div>

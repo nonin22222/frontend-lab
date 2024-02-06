@@ -50,61 +50,6 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener("keypress", handleKeyPress);
 });
-// const login = async () => {
-//   if (
-//     user.value === null ||
-//     user.value === "" ||
-//     password.value === null ||
-//     password.value === ""
-//   ) {
-//     showWarn();
-//   } else {
-//     try {
-//       const response = await axios.post(
-//         `${import.meta.env.VITE_VUE_APP_LAB_API}/login`,
-//         {
-//           username: user.value,
-//           password: password.value,
-//         }
-//       );
-//       console.log("response : ",response.data);
-//       store.commit("setLogin", {
-//         logedIn: true,
-//         userName: response.data.userName,
-//         level: response.data.level,
-//         id: response.data.id,
-//       });
-//       if (response.data.status && response.data.level === "admin") {
-//         store.commit("setToken", response.data.token);
-//         localStorage.setItem("token", response.data.token);
-//         showSuccess();
-//         setTimeout(() => {
-//           router.push("/admin");
-//         }, 2000);
-//       } else if (
-//         response.data.level &&
-//         response.data.level.includes("employee")
-//       ) {
-//         showSuccess();
-//         setTimeout(() => {
-//           router.push("/employee");
-//         }, 2000);
-//       } else if (response.data.level && response.data.level.includes("sale")) {
-//         showSuccess();
-//         setTimeout(() => {
-//           router.push("/sale");
-//         }, 2000);
-//       } else {
-//         console.log("ไม่พบบทบาทที่กำหนด");
-//       }
-//       console.log("เข้าสู่ระบบสำเร็จ");
-//     } catch (error) {
-//       showError();
-//       console.error("Error : ", error);
-//     }
-//   }
-// };
-
 const login = async () => {
   if (
     user.value === null ||
@@ -135,13 +80,15 @@ const login = async () => {
       });
 
       if (response.data.status && level === "admin") {
+        store.commit("setUserName", response.data.result.name);
         store.commit("setToken", response.data.token);
         localStorage.setItem("token", response.data.token);
         showSuccess();
         setTimeout(() => {
-          router.push("/admin");
+          router.push("/dashboard");
         }, 2000);
       } else if (level && level.includes("employee")) {
+        store.commit("setUserName", response.data.result.name);
         store.commit("setToken", response.data.token);
         localStorage.setItem("token", response.data.token);
         showSuccess();
@@ -149,16 +96,16 @@ const login = async () => {
           router.push("/employee");
         }, 2000);
       } else if (level && level.includes("sale")) {
+        store.commit("setUserName", response.data.result.name);
         store.commit("setToken", response.data.token);
         localStorage.setItem("token", response.data.token);
         showSuccess();
         setTimeout(() => {
-          router.push("/sale");
+          router.push("/qtformsale");
         }, 2000);
       } else {
         console.log("ไม่พบบทบาทที่กำหนด");
       }
-
       console.log("เข้าสู่ระบบสำเร็จ");
     } catch (error) {
       showError();
@@ -170,7 +117,6 @@ const login = async () => {
 const showlogin = () => {
   visible.value = true;
 };
-
 onMounted(() => {
   const storedToken = localStorage.getItem("token");
   if (storedToken) {
@@ -192,8 +138,14 @@ onMounted(() => {
         >
       </div>
       <div class="flex gap-x-2">
-        <div class="cursor-pointer flex items-center gap-x-2 text-xl font-bold text-[#fff]">
-          <Button @click="showlogin()" label="เข้าสู่ระบบ" icon="px-2 m-0 pi pi-user text-lg font-bold" />
+        <div
+          class="cursor-pointer flex items-center gap-x-2 text-xl font-bold text-[#fff]"
+        >
+          <Button
+            @click="showlogin()"
+            label="เข้าสู่ระบบ"
+            icon="px-2 m-0 pi pi-user text-lg font-bold"
+          />
         </div>
 
         <Dialog

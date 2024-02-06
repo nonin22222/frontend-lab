@@ -9,7 +9,7 @@
         class="text-white text-sm uppercase hidden lg:inline-block font-semibold"
         href="javascript:void(0)"
       >
-        Dashboard
+        Dashboard-Sale
       </a>
       <!-- Form -->
       <form class="flex items-center lg:ml-auto mr-3">
@@ -17,21 +17,18 @@
           <span class="text-white font-semibold text-lg">{{ userName }}</span>
         </div>
       </form>
-      <!-- User -->
     </div>
   </nav>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useStore } from "vuex";
 
-// สร้าง ref สำหรับเก็บค่า userName
-const userName = ref("");
-
-// เรียกใช้ store
 const store = useStore();
-
-// ให้ userName เก็บค่าจาก store
+const userName = ref("");
 userName.value = store.state.userName;
+onMounted(() => {
+  console.log("userName : ", userName.value);
+});
 </script>
