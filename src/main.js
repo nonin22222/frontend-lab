@@ -20,6 +20,7 @@ import Dialog from "primevue/dialog";
 import Toast from "primevue/toast";
 import Paginator from "primevue/paginator";
 import FileUpload from "primevue/fileupload";
+import ProgressSpinner from "primevue/progressspinner";
 
 // Import styles
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -56,6 +57,7 @@ app.component("InputText", InputText);
 app.component("Toast", Toast);
 app.component("Paginator", Paginator);
 app.component("FileUpload", FileUpload);
+app.component("ProgressSpinner", ProgressSpinner);
 
 // Mount the app
 app.mount("#app");

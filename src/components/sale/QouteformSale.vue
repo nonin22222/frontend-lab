@@ -1,3 +1,4 @@
+<!-- คอมโพเนนต์ที่ต้องการรับข้อมูล -->
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
@@ -216,7 +217,7 @@ const statusColor = (status) => {
               @click="showqtvisible()"
               label="เพิ่มใบเสนอราคา"
               severity="secondary"
-              icon="pi pi-user-plus"
+              icon="pi pi-file-edit"
               text
               raised
               class="bg-teal-500 text-white rounded-xl font-bold py-2.5 px-2"

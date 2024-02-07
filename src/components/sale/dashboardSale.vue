@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-teal-100 h-full">
+  <div class="min-h-screen">
     <SidebarSale />
     <div class="relative md:ml-64">
       <NavbarSale/>

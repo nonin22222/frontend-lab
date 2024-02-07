@@ -3,22 +3,18 @@ import { createStore } from "vuex";
 export default createStore({
   // สถานะ
   state: {
+    loading: false,
     logedIn: false,
     token: localStorage.getItem("token"),
     _id: "",
     userName: null,
     roles: "",
   },
-  //ตัวดึงข้อมูล
-  getters: {
-    logedIn: (state) => state.logedIn,
-    token: (state) => state.token,
-    _id: (state) => state._id,
-    username: (state) => state.userName,
-    roles: (state) => state.roles,
-  },
   // การเปลี่ยนแปลง
   mutations: {
+    setLoading(state, status) {
+      state.loading = status;
+    },
     setRoles(state, roles) {
       state.roles = roles;
       localStorage.setItem("roles", roles);
@@ -50,7 +46,22 @@ export default createStore({
       state.token = item;
     },
   },
+  //ตัวดึงข้อมูล
+  getters: {
+    logedIn: (state) => state.logedIn,
+    token: (state) => state.token,
+    _id: (state) => state._id,
+    username: (state) => state.userName,
+    roles: (state) => state.roles,
+    isLoading(state) {
+      return state.loading;
+    },
+  },
   // การทำงาน
-  actions: {},
+  actions: {
+    setLoading({ commit }, status) {
+      commit("setLoading", status);
+    },
+  },
   modules: {},
 });
