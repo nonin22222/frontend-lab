@@ -171,6 +171,8 @@ const showSuccess = () => {
     life: 3000,
   });
 };
+
+
 const showqtvisible = () => {
   formqtvisible.value = true;
 };
@@ -196,6 +198,10 @@ const statusColor = (status) => {
       return "";
   }
 };
+
+const addquotation = () => {
+  router.push("/addquotation");
+};
 </script>
 
 <template>
@@ -216,6 +222,15 @@ const statusColor = (status) => {
             <Button
               @click="showqtvisible()"
               label="เพิ่มใบเสนอราคา"
+              severity="secondary"
+              icon="pi pi-file-edit"
+              text
+              raised
+              class="bg-teal-500 text-white rounded-xl font-bold py-2.5 px-2"
+            />
+            <Button
+              @click="addquotation()"
+              label="เพิ่มใบเสนอราคาใหม่"
               severity="secondary"
               icon="pi pi-file-edit"
               text

@@ -15,7 +15,7 @@ import dashboardSale from "../components/sale/dashboardSale.vue";
 import QouteformSale from "../components/sale/QouteformSale.vue";
 import Phasetime from "../components/sale/phasetime.vue";
 
-
+import AddQuotation from "../components/sale/AddQuotation.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,6 +66,10 @@ const router = createRouter({
           path: "/phasetime",
           component: Phasetime,
         },
+        {
+          path: "/addquotation",
+          component: AddQuotation,
+        }
       ],
     },
     { path: "/employee", component: EmployeeView },
